@@ -1,0 +1,80 @@
+server:
+  port: 8189
+spring:
+  application:
+    name: StreamVideoServer
+  data:
+    mongodb:
+      #      authentication-database: admin
+      database: blue-mongodb
+      #      uri: mongodb+srv://user:admin@localhost:8000/blue-mongodb
+      #      uri: mongodb://user:admin@localhost:8000/blue-mongodb
+#      cluster with operator in kubernetes
+#      uri: mongodb://user:admin@localhost:8000/admin?readPreference=primaryPreferred
+#      single instance in kubernetes
+      uri: mongodb://admin:admin@localhost:30332/admin?readPreference=primaryPreferred
+#  output:
+#    ansi:
+#      enabled: ALWAYS
+#management:
+#  tracing:
+#    sampling:
+#      probability: 1.0
+#    propagation:
+#      type: b3
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+  otlp:
+    metrics:
+      export:
+#        url: http://otel-collector-collector.opentelemetry/v1/metrics:4318
+        url: http://localhost:31099/v1/metrics:4318
+        step: 10s
+
+
+
+
+#management:
+#  defaults:
+#    metrics:
+#      export:
+#        enabled: true
+#  tracing:
+#    propagation:
+#      type: b3
+#    enabled: true
+#    sampling:
+#      probability: 1.0
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+#  jaeger:
+#    tracing:
+#      propagation:
+#        type: b3
+#      endpoint: http://localhost:4317
+
+#  otlp:
+#    metrics:
+#      export:
+#        enabled: true
+#        url: http://localhost:4317
+
+#  prometheus:
+#    metrics:
+#      export:
+#        enabled: true
+#  logging:
+#    pattern:
+#      level: %5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]
+
+logging:
+  level:
+    es.bluesolution: TRACE
+
